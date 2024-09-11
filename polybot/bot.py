@@ -15,7 +15,7 @@ from botocore.exceptions import ClientError
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-region_name = os.environ.get("AWS_REGION")
+region_name = "us-east-2"
 # Queue Name
 Queue_name = f"galgu-PolybotServiceQueue-{region_name}"
 logger.info(f"Queue Name: {Queue_name}")

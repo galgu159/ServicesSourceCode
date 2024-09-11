@@ -10,7 +10,7 @@ from botocore.exceptions import ClientError
 
 
 app = flask.Flask(__name__)
-region_name = os.environ.get("AWS_REGION")
+region_name = "us-east-2"
 logger.info(f"Using AWS Region: {region_name}")
 # Dynamically create DynamoDB table name using f-string
 DYNAMODB_NAME = f"galgu-PolybotService-DynamoDB-tf-{region_name}"
@@ -21,7 +21,7 @@ logger.info(f"DynamoDB Name: {DYNAMODB_NAME}")
 def get_secret():
 
     secret_name = "telegram_token"
-    region_name = os.environ.get("AWS_REGION")
+    region_name = "us-east-2"
 
     # Create a Secrets Manager client
     session = boto3.session.Session()
@@ -40,10 +40,6 @@ def get_secret():
         raise e
 
     secret = get_secret_value_response['SecretString']
-    print("secret token without cut:")
-    print(secret)
-    return secret
-
 
 secret_json_str = get_secret()
 if secret_json_str:

@@ -16,7 +16,7 @@ from bson import json_util
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-region_name = os.environ.get("AWS_REGION")
+region_name = "us-east-2"
 # Queue Name
 queue_name = f"galgu-PolybotServiceQueue-{region_name}"
 logger.info(f"Queue Name: {queue_name}")
