@@ -15,7 +15,7 @@ from botocore.exceptions import ClientError
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-region_name = "us-east-2"
+region_name = "eu-west-3"
 # Queue Name
 Queue_name = f"galgu-PolybotServiceQueue-{region_name}"
 logger.info(f"Queue Name: {Queue_name}")
@@ -37,7 +37,9 @@ class Bot:
         time.sleep(0.5)
 
         # set the webhook URL
-        self.telegram_bot_client.set_webhook(url=f'{telegram_chat_url}/{token}/', timeout=60)
+        with open("/usr/src/app/tls1.crt", 'r') as cert:
+            self.telegram_bot_client.set_webhook(url=f'{telegram_chat_url}/{token}/', certificate=cert, timeout=60)
+
 
         logger.info(f'Telegram Bot information\n\n{self.telegram_bot_client.get_me()}')
 

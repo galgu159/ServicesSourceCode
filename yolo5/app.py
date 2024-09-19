@@ -16,7 +16,7 @@ from bson import json_util
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-region_name = "us-east-2"
+region_name = "eu-west-3"
 # Queue Name
 queue_name = f"galgu-PolybotServiceQueue-{region_name}"
 logger.info(f"Queue Name: {queue_name}")
@@ -128,8 +128,9 @@ def consume():
 
                 # Send the message from my yolo5 to load balancer:
                 POLYBOT_RESULTS_URL = "https://galgu.int-devops.click/results"
+                response = None  # Initialize response to handle cases where it's not assigned
                 try:
-                    response = requests.post(f'{POLYBOT_RESULTS_URL}', params={'predictionId': prediction_id})
+                    response = requests.post(f'{POLYBOT_RESULTS_URL}', params={'predictionId': prediction_id}, verify=False)
                     response.raise_for_status()  # Raise an error for bad status codes
                     logger.info(f'prediction: {prediction_id}. Notified Polybot microservice successfully')
                 except requests.exceptions.RequestException as e:
