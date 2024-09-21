@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: polybot-app
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/YOUR_INFRA_REPO_NAME.git'  # Change this to your infrastructure repo
+    targetRevision: main
+    path: ./polybot
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
