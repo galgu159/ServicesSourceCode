@@ -127,7 +127,7 @@ def consume():
                 table.put_item(Item=prediction_summary)
 
                 # Send the message from my yolo5 to load balancer:
-                POLYBOT_RESULTS_URL = "https://galgu-dev.int-devops.click/results"
+                POLYBOT_RESULTS_URL = "https://galgu.int-devops.click/results"
                 response = None  # Initialize response to handle cases where it's not assigned
                 try:
                     response = requests.post(f'{POLYBOT_RESULTS_URL}', params={'predictionId': prediction_id}, verify=False)
