@@ -37,7 +37,7 @@ class Bot:
         time.sleep(0.5)
 
         # set the webhook URL
-        with open("/usr/src/app/tls-dev.crt", 'r') as cert:
+        with open("/usr/src/app/tls1.crt", 'r') as cert:
             self.telegram_bot_client.set_webhook(url=f'{telegram_chat_url}/{token}/', certificate=cert, timeout=60)
 
 
