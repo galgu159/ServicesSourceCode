@@ -20,7 +20,7 @@ logger.info(f"DynamoDB Name: {DYNAMODB_NAME}")
 # return my secret from aws
 def get_secret():
 
-    secret_name = "telegram_token"
+    secret_name = "telegram_token-ohio"
     region_name = "eu-west-3"
 
     # Create a Secrets Manager client
@@ -45,7 +45,7 @@ def get_secret():
 secret_json_str = get_secret()
 if secret_json_str:
     secret_dict = json.loads(secret_json_str)
-    TELEGRAM_TOKEN = secret_dict.get('telegram_token')
+    TELEGRAM_TOKEN = secret_dict.get('telegram_token-ohio')
 else:
     print("Failed to retrieve the secret")
 
@@ -54,7 +54,7 @@ else:
 print("with cut:")
 print(TELEGRAM_TOKEN)
 
-TELEGRAM_APP_URL="https://galgu.int-devops.click"
+TELEGRAM_APP_URL="https://galgu-dev.int-devops.click"
 print(TELEGRAM_APP_URL)
 
 @app.route('/', methods=['GET'])

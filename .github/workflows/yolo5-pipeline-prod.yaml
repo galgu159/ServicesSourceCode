@@ -20,26 +20,26 @@ jobs:
         run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
       - name: Build Docker Image
-        run: docker build -t galgu/polybot:${{ github.sha }} .
+        run: docker build -t galgu/yolo5:${{ github.sha }} .
 
       - name: Push Docker Image
-        run: docker push galgu/polybot:${{ github.sha }}
+        run: docker push galgu/yolo5:${{ github.sha }}
 
       - name: Checkout Infrastructure Repo
         uses: actions/checkout@v3
         with:
-          repository: YOUR_INFRA_REPO_NAME  # Change to your infrastructure repo
+          repository: https://github.com/galgu159/ManifestFileKubernetes  # Change to your infrastructure repo
           token: ${{ secrets.REPO_TOKEN }}
-          path: ./polybot
+          path: ./prod/yolo5
 
       - name: Update YAML Manifests
         run: |
-          cd ./polybot
-          sed -i 's|image: galgu/polybot:.*|image: galgu/polybot:'"${{ github.sha }}"'|' polybot.yaml
+          cd ./yolo5.yaml
+          sed -i 's|image: galgu/yolo5:.*|image: galgu/yolo5:'"${{ github.sha }}"'|' yolo5.yaml
 
       - name: Commit and Push Changes
         run: |
-          cd ./polybot
+          cd ./yolo5
           git config --local user.email "you@example.com"  # Replace with your email
           git config --local user.name "Your Name"          # Replace with your name
           git add .
