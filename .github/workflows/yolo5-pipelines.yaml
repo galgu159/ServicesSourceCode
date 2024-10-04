@@ -3,7 +3,7 @@ name: YOLO Stack Build-Deploy
 on:
   push:
     branches:
-      - main
+      - dev
 
 permissions:
   contents: write

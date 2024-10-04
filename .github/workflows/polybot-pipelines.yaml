@@ -3,7 +3,7 @@ name: Polybot Stack Build-Deploy
 on:
   push:
     branches:
-      - main
+      - dev
 
 permissions:
   contents: write
