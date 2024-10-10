@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 region_name = "eu-west-3"
 # Queue Name
-Queue_name = f"galgu-PolybotServiceQueue-{region_name}"
+Queue_name = f"galgu-PolybotServiceQueue-{region_name}-dev"
 logger.info(f"Queue Name: {Queue_name}")
 # Bucket create DynamoDB table name using f-string
 images_bucket = f"galgu-bucket-{region_name}"
