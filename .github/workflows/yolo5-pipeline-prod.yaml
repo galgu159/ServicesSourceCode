@@ -30,7 +30,7 @@ jobs:
       - name: Checkout Infrastructure Repo
         uses: actions/checkout@v3
         with:
-          repository: https://github.com/galgu159/ManifestFileKubernetes # Change to your infrastructure repo
+          repository: galgu159/ManifestFileKubernetes
           token: ${{ secrets.REPO_TOKEN }}
           path: prod/yolo5
 
