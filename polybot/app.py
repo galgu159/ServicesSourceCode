@@ -50,7 +50,6 @@ else:
     print("Failed to retrieve the secret")
 
 
-
 print("with cut:")
 print(TELEGRAM_TOKEN)
 
