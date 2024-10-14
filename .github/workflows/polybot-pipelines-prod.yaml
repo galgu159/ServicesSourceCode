@@ -38,14 +38,6 @@ jobs:
           run: |
             cd ./prod/polybot
             sed -i 's|image: galgu/polybot:.*|image: galgu/polybot:'"${{ github.sha }}"'|' polybot.yaml
-      
-      
-
-      # Step 6: Update YAML Manifests with the new image
-      - name: Update YAML Manifests
-        run: |
-          cd ./prod/polybot
-          sed -i 's|image: galgu/polybot:.*|image: galgu/polybot:'"${{ github.sha }}"'|' polybot.yaml
 
       - name: Commit and Push Changes
         run: |
