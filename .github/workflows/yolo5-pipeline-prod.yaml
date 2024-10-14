@@ -32,11 +32,11 @@ jobs:
         with:
           repository: galgu159/ManifestFileKubernetes
           token: ${{ secrets.REPO_TOKEN }}
-          path: prod/yolo5
+          path: ./prod/yolo5
 
       - name: Update YAML Manifests
         run: |
-          cd prod/yolo5
+          cd ./prod/yolo5
           sed -i 's|image: galgu/yolo5:.*|image: galgu/yolo5:'"${{ github.sha }}"'|' yolo5.yaml
 
       - name: Commit and Push Changes
