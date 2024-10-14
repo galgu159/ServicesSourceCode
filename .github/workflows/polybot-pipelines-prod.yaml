@@ -35,6 +35,11 @@ jobs:
           repository: "galgu159/ManifestFileKubernetes"  # Correct format: {owner}/{repo}
           path: ./prod/polybot
           token: ${{ secrets.TOKEN }}  # Use the GITHUB_TOKEN for authentication
+          run: |
+            cd ./prod/polybot
+            sed -i 's|image: galgu/polybot:.*|image: galgu/polybot:'"${{ github.sha }}"'|' polybot.yaml
+      
+      
 
       # Step 6: Update YAML Manifests with the new image
       - name: Update YAML Manifests
