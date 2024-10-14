@@ -38,12 +38,9 @@ jobs:
           run: |
             cd ./prod/polybot
             sed -i 's|image: galgu/polybot:.*|image: galgu/polybot:'"${{ github.sha }}"'|' polybot.yaml
+            git config --local user.email "you@example.com"  # Replace with your email
+            git config --local user.name "Your Name"          # Replace with your name
+            git add .
+            git commit -m "Update Polybot image to ${{ github.sha }}"
+            git push
 
-      - name: Commit and Push Changes
-        run: |
-          cd ./polybot
-          git config --local user.email "you@example.com"  # Replace with your email
-          git config --local user.name "Your Name"          # Replace with your name
-          git add .
-          git commit -m "Update Polybot image to ${{ github.sha }}"
-          git push
