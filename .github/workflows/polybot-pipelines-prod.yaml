@@ -28,13 +28,15 @@ jobs:
 
       - name: Push Docker Image
         run: docker push galgu/polybot:${{ github.sha }}
-
+      # Step 5: Checkout Infrastructure Repo (with token)
       - name: Checkout Infrastructure Repo
         uses: actions/checkout@v3
         with:
-          repository: galgu159/ManifestFileKubernetes
+          repository: "galgu159/ManifestFileKubernetes"  # Correct format: {owner}/{repo}
           path: ./prod/polybot
+          token: ${{ secrets.TOKEN }}  # Use the GITHUB_TOKEN for authentication
 
+      # Step 6: Update YAML Manifests with the new image
       - name: Update YAML Manifests
         run: |
           cd ./prod/polybot

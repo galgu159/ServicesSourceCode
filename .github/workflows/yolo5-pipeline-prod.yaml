@@ -33,6 +33,7 @@ jobs:
           repository: galgu159/ManifestFileKubernetes
           token: ${{ secrets.REPO_TOKEN }}
           path: ./prod/yolo5
+          token: ${{ secrets.GITHUB_TOKEN }}  # Use the GITHUB_TOKEN for authentication
 
       - name: Update YAML Manifests
         run: |
