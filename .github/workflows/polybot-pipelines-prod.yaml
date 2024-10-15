@@ -37,11 +37,16 @@ jobs:
           repository: "galgu159/ManifestFileKubernetes"
           path: infra-repo
           token: ${{ secrets.TOKEN }}  # Use the GITHUB_TOKEN or a PAT with push access
+
+# Step 6: Update the image version in polybot.yaml and push changes
+      - name: Update and Push Manifest
         working-directory: infra-repo/prod/polybot
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}  # Use your PAT from GitHub secrets
         run: |
           sed -i 's|image: galgu/polybot:.*|image: galgu/polybot:'"${{ github.sha }}"'|' polybot.yaml
-          git config --global user.email "galguet@gmail.com"  # Set your email
-          git config --global user.name "galgu159"         # Set your name
+          git config --global user.email "galguet@gmail.com"
+          git config --global user.name "galgu159"
           git add polybot.yaml
           git commit -m "Update Polybot image to ${{ github.sha }}"
-          git push origin main
+          git push https://galgu159:${{ secrets.TOKEN }}@github.com/galgu159/ManifestFileKubernetes.git main
