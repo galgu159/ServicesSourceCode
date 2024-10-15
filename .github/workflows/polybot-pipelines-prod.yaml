@@ -26,21 +26,26 @@ jobs:
           docker build -t galgu/polybot:${{ github.sha }} .
 
 
+      # Step 4: Push Docker Image to Docker Hub
       - name: Push Docker Image
         run: docker push galgu/polybot:${{ github.sha }}
-      # Step 5: Checkout Infrastructure Repo (with token)
+
+      # Step 5: Checkout Infrastructure Repo (ManifestFileKubernetes)
       - name: Checkout Infrastructure Repo
         uses: actions/checkout@v3
         with:
-          repository: "galgu159/ManifestFileKubernetes"  # Correct format: {owner}/{repo}
-          path: ./prod/polybot
-          token: ${{ secrets.TOKEN }}  # Use the GITHUB_TOKEN for authentication
-          run: |
-            cd ./prod/polybot
-            sed -i 's|image: galgu/polybot:.*|image: galgu/polybot:'"${{ github.sha }}"'|' polybot.yaml
-            git config --local user.email "you@example.com"  # Replace with your email
-            git config --local user.name "Your Name"          # Replace with your name
-            git add polybot.yaml
-            git commit -m "Update Polybot image to ${{ github.sha }}"
-            git push origin main
+          repository: "galgu159/ManifestFileKubernetes"
+          path: infra-repo
+          token: ${{ secrets.TOKEN }}  # Use the GITHUB_TOKEN or a PAT with push access
+
+      # Step 6: Update the image version in polybot.yaml and push changes
+      - name: Update and Push Manifest
+        working-directory: infra-repo/prod/polybot
+        run: |
+          sed -i 's|image: galgu/polybot:.*|image: galgu/polybot:'"${{ github.sha }}"'|' polybot.yaml
+          git config --global user.email "galguet@gmail.com"  # Set your email
+          git config --global user.name "galgu159"         # Set your name
+          git add polybot.yaml
+          git commit -m "Update Polybot image to ${{ github.sha }}"
+          git push origin main
 
