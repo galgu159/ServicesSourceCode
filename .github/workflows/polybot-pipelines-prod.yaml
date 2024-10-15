@@ -36,7 +36,7 @@ jobs:
         with:
           repository: "galgu159/ManifestFileKubernetes"
           path: infra-repo
-          token: ${{ secrets.TOKEN }}  # Use the GITHUB_TOKEN or a PAT with push access
+          token: ${{ secrets.TOKEN2 }}  # Use the GITHUB_TOKEN or a PAT with push access
 
       # Step 6: Update the image version in polybot.yaml and push changes
       - name: Update and Push Manifest
