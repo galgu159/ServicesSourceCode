@@ -48,4 +48,3 @@ jobs:
           git add polybot.yaml
           git commit -m "Update Polybot image to ${{ github.sha }}"
           git push origin main
-
