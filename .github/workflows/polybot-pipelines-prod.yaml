@@ -47,4 +47,4 @@ jobs:
           git config --global user.name "galgu159"         # Set your name
           git add polybot.yaml
           git commit -m "Update Polybot image to ${{ github.sha }}"
-          git push main
+          git push origin main
