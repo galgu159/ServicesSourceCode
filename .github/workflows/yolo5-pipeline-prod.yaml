@@ -1,4 +1,4 @@
-name: Polybot Stack Build-Deploy
+name: YOLO5 Stack Build-Deploy
 
 on:
   push:
@@ -13,38 +13,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Polybot Repo
+      - name: Checkout YOLO Repo
         uses: actions/checkout@v3
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
- # Step 3: Build Docker Image in the polybot directory
+
+ # Step 3: Build Docker Image in the yolo directory
       - name: Build Docker Image
         run: |
           cd yolo5
           docker build -t galgu/yolo5:${{ github.sha }} .
 
+
+      # Step 4: Push Docker Image to Docker Hub
       - name: Push Docker Image
         run: docker push galgu/yolo5:${{ github.sha }}
 
+      # Step 5: Checkout Infrastructure Repo (ManifestFileKubernetes)
       - name: Checkout Infrastructure Repo
         uses: actions/checkout@v3
         with:
-          repository: galgu159/ManifestFileKubernetes
-          token: ${{ secrets.REPO_TOKEN }}
-          path: ./prod/yolo5
-          token: ${{ secrets.GITHUB_TOKEN }}  # Use the GITHUB_TOKEN for authentication
+          repository: "galgu159/ManifestFileKubernetes"
+          path: infra-repo
+          token: ${{ secrets.TOKEN2 }}  # Use the GITHUB_TOKEN or a PAT with push access
 
-      - name: Update YAML Manifests
+      # Step 6: Update the image version in yolo5.yaml and push changes
+      - name: Update and Push Manifest
+        working-directory: infra-repo/prod/yolo5
         run: |
-          cd ./prod/yolo5
           sed -i 's|image: galgu/yolo5:.*|image: galgu/yolo5:'"${{ github.sha }}"'|' yolo5.yaml
-
-      - name: Commit and Push Changes
-        run: |
-          cd ./yolo5
-          git config --local user.email "you@example.com"  # Replace with your email
-          git config --local user.name "Your Name"          # Replace with your name
-          git add .
-          git commit -m "Update Polybot image to ${{ github.sha }}"
-          git push
+          git config --global user.email "galguet@gmail.com"  # Set your email
+          git config --global user.name "galgu159"         # Set your name
+          git add yolo5.yaml
+          git commit -m "Update YOLO5 image to ${{ github.sha }}"
+          git push origin main
