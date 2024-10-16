@@ -47,4 +47,4 @@ jobs:
           git config --global user.name "galgu159"         # Set your name
           git add yolo5-dev.yaml
           git commit -m "Update YOLO5 Dev image to ${{ github.sha }}"
-          git push origin main
+          git push origin dev
