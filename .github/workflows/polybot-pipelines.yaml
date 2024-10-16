@@ -1,4 +1,4 @@
-name: Polybot Stack Build-Deploy
+name: Polybot Dev Stack Build-Deploy
 
 on:
   push:
@@ -19,28 +19,32 @@ jobs:
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
+ # Step 3: Build Docker Image in the polybot directory
       - name: Build Docker Image
-        run: docker build -t galgu/polybot2:${{ github.sha }} .
+        run: |
+          cd polybot
+          docker build -t galgu/polybot2:${{ github.sha }} .
 
+
+      # Step 4: Push Docker Image to Docker Hub
       - name: Push Docker Image
         run: docker push galgu/polybot2:${{ github.sha }}
 
+      # Step 5: Checkout Infrastructure Repo (ManifestFileKubernetes)
       - name: Checkout Infrastructure Repo
         uses: actions/checkout@v3
         with:
-          repository: https://github.com/galgu159/ManifestFileKubernetes # Change to your infrastructure repo
-          path: ./dev/polybot
+          repository: "galgu159/ManifestFileKubernetes"
+          path: infra-repo
+          token: ${{ secrets.TOKEN2 }}  # Use the GITHUB_TOKEN or a PAT with push access
 
-      - name: Update YAML Manifests
+      # Step 6: Update the image version in polybot-dev.yaml and push changes
+      - name: Update and Push Manifest
+        working-directory: infra-repo/dev/polybot
         run: |
-          cd ./dev/polybot
           sed -i 's|image: galgu/polybot2:.*|image: galgu/polybot2:'"${{ github.sha }}"'|' polybot-dev.yaml
-
-      - name: Commit and Push Changes
-        run: |
-          cd ./polybot
-          git config --local user.email "you@example.com"  # Replace with your email
-          git config --local user.name "Your Name"          # Replace with your name
-          git add .
-          git commit -m "Update Polybot image to ${{ github.sha }}"
-          git push
+          git config --global user.email "galguet@gmail.com"  # Set your email
+          git config --global user.name "galgu159"         # Set your name
+          git add polybot-dev.yaml
+          git commit -m "Update Polybot Dev image to ${{ github.sha }}"
+          git push origin main
